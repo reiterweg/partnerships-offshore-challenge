@@ -1,0 +1,52 @@
+<div class="modal fade" id="modal-event" tabindex="-1" role="dialog" aria-labelledby="modal-event-title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-event-title">Add New Event</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="overflow-y: auto; height: 400px;">
+                <div class="container">
+                    <form #eventForm="ngForm">
+                        <div class="form-group" [hidden]="!event.id">
+                            <label for="id">ID</label>
+                            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="event.id" readonly/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="name">Name</label>
+                            <input type="text" class="form-control" name="name" id="name" required [(ngModel)]="event.name" #name="ngModel"/>
+                            <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                                Name is required
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="date">Date</label>
+                            <div>
+                                <input id="date" type="datetime-local" class="form-control" name="date" required [(ngModel)]="date" placeholder="YYYY-MM-DD HH:mm"/>
+                                <div [hidden]="validDate(date) || date?.pristine" class="alert alert-danger">
+                                    Date is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="venue">Venue</label>
+                            <select class="form-control" id="venue" name="venue" [(ngModel)]="event.venueId" #venueId="ngModel">
+                                <option *ngIf="!eventForm.value.venue" [ngValue]="null" selected></option>
+                                <option *ngFor="let venue of venues" [ngValue]="venue.id">{{ venue.name }}</option>
+                            </select>
+                            <div [hidden]="!(eventForm.controls.venue?.dirty && eventForm.controls.venue?.invalid)" class="alert alert-danger">
+                                Venue is required
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal" #btnClose>Close</button>
+                <button type="button" class="btn btn-primary" [disabled]="eventForm.form.invalid || isSaving" (click)="save()">Add Event</button>
+            </div>
+        </div>
+    </div>
+</div>
