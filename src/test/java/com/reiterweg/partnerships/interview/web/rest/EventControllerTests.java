@@ -5,10 +5,10 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.reiterweg.partnerships.interview.InterviewApplication;
 import com.reiterweg.partnerships.interview.domain.Event;
 import com.reiterweg.partnerships.interview.domain.Venue;
+import com.reiterweg.partnerships.interview.repository.EventRepository;
 import com.reiterweg.partnerships.interview.service.EventService;
 import com.reiterweg.partnerships.interview.service.dto.EventDTO;
 import com.reiterweg.partnerships.interview.service.mapper.EventMapper;
-import com.reiterweg.partnerships.interview.repository.EventRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,6 +61,7 @@ public class EventControllerTests {
         this.restEventMockMvc = MockMvcBuilders.standaloneSetup(eventController).build();
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
+        this.event = createEntity(entityManager);
     }
 
     public static Event createEntity(EntityManager entityManager) {
@@ -74,11 +75,6 @@ public class EventControllerTests {
         event.setVenue(venue);
 
         return event;
-    }
-
-    @Before
-    public void initTest() {
-        event = createEntity(entityManager);
     }
 
     @Test

@@ -24,8 +24,8 @@
                         <div class="form-group">
                             <label class="form-control-label" for="date">Date</label>
                             <div>
-                                <input id="date" type="datetime-local" class="form-control" name="date" required [(ngModel)]="date" placeholder="YYYY-MM-DD HH:mm"/>
-                                <div [hidden]="validDate(date) || date?.pristine" class="alert alert-danger">
+                                <input id="date" type="datetime-local" class="form-control" name="date" required [(ngModel)]="event.date" placeholder="YYYY-MM-DD HH:mm" #date="ngModel"/>
+                                <div [hidden]="validDate(date)" class="alert alert-danger">
                                     Date is required
                                 </div>
                             </div>

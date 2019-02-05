@@ -60,6 +60,7 @@ public class VenueControllerTests {
         this.restVenueMockMvc = MockMvcBuilders.standaloneSetup(venueController).build();
         this.objectMapper = new ObjectMapper();
         this.objectMapper.registerModule(new JavaTimeModule());
+        this.venue = createEntity(entityManager);
     }
 
     public static Venue createEntity(EntityManager entityManager) {
@@ -69,11 +70,6 @@ public class VenueControllerTests {
         venue.setState(DEFAULT_STATE);
 
         return venue;
-    }
-
-    @Before
-    public void initTest() {
-        venue = createEntity(entityManager);
     }
 
     @Test

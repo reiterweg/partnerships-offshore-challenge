@@ -1,9 +1,9 @@
 package com.reiterweg.partnerships.interview.service.impl;
 
 import com.reiterweg.partnerships.interview.domain.Venue;
+import com.reiterweg.partnerships.interview.repository.VenueRepository;
 import com.reiterweg.partnerships.interview.service.VenueService;
 import com.reiterweg.partnerships.interview.service.dto.VenueDTO;
-import com.reiterweg.partnerships.interview.repository.VenueRepository;
 import com.reiterweg.partnerships.interview.service.mapper.VenueMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
