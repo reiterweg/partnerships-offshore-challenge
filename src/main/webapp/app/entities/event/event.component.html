@@ -22,7 +22,7 @@
         <tbody>
         <tr *ngFor="let event of events">
             <td>{{ event.name }}</td>
-            <td>{{ event.date }}</td>
+            <td>{{ event.date | date : 'MMMM d y, h:mm a' }}</td>
             <td>{{ event.venueName }}</td>
             <td>{{ event.venueCity }}</td>
             <td>{{ event.venueState }}</td>

@@ -34,7 +34,7 @@ export class EventService {
 
     protected convertDateFromClient(event: Event): Event {
         const copy: Event = Object.assign({}, event, {
-            date: event.date != null && moment(event.date).isValid() ? event.date.toJSON() : null
+            date: event.date != null && moment(event.date).isValid() ? moment(event.date).toJSON() : null
         });
 
         return copy;

@@ -20,7 +20,6 @@ export class EventSaveComponent implements OnInit {
     event: Event;
     isSaving: boolean;
     venues: Venue[];
-    date: string;
 
     constructor(
         protected eventService: EventService,
@@ -42,27 +41,29 @@ export class EventSaveComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.event.date = this.date != null ? moment(this.date, DATE_TIME_FORMAT) : null;
         this.eventService
             .create(this.event)
             .subscribe(
-                (response: HttpResponse<Event>) => this.onSaveSuccess(),
-                (response: HttpErrorResponse) => this.onSaveError()
+                (response: HttpResponse<Event>) => this.onSaveSuccess(response),
+                (response: HttpErrorResponse) => this.onSaveError(response)
             );
     }
 
-    validDate(date) {
-        return date != null && moment(date, DATE_TIME_FORMAT);
+    validDate(field) {
+        if (field && field.untouched && (field.value === undefined || field.value === null || field.value === "")) {
+            return true;
+        }
+        return moment(field.value, DATE_TIME_FORMAT, true).isValid();
     }
 
-    protected onSaveSuccess() {
-        this.created.emit();
+    protected onSaveSuccess(response) {
         this.isSaving = false;
+        this.created.emit();
         this.btnClose.nativeElement.click();
         this.alertService.success('Event was successfully created');
     }
 
-    protected onSaveError() {
+    protected onSaveError(response) {
         this.isSaving = false;
         this.alertService.danger('There was an error creating Event');
     }

@@ -2,6 +2,8 @@ buildscript {
 	ext {
 		springBootVersion = '2.0.4.RELEASE'
 		mapstructVersion = '1.2.0.Final'
+        nodeVersion = '10.15.0'
+        npmVersion = '6.4.1'
 	}
 	repositories {
 		mavenCentral()
@@ -14,30 +16,59 @@ buildscript {
 plugins {
     id "net.ltgt.apt-idea" version "0.19"
     id "net.ltgt.apt" version "0.19"
+    id "com.moowork.node" version "1.2.0"
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+apply plugin: "com.moowork.node"
+apply plugin: "java"
+apply plugin: "idea"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
 
-group = 'com.reiterweg.partnerships'
-version = '0.0.1-SNAPSHOT'
+idea {
+    module {
+        excludeDirs += files("node_modules")
+    }
+}
+
+group = "com.reiterweg.partnerships"
+version = "1.0.0"
 sourceCompatibility = 1.8
 
-project.buildDir = 'build'
+project.buildDir = "build"
+
+defaultTasks 'ngBuild', 'build', 'bootRun'
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('com.h2database:h2')
-	compile('ch.qos.logback:logback-classic')
+	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+	compile("com.h2database:h2")
+	compile("ch.qos.logback:logback-classic")
 	compile("org.mapstruct:mapstruct:${mapstructVersion}")
 	annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}")
     testCompile("org.mapstruct:mapstruct:${mapstructVersion}")
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+node {
+    version = "${nodeVersion}"
+    npmVersion = "${npmVersion}"
+    download = true
+}
+
+task ngBuild(type:Exec) {
+    dependsOn "npmInstall"
+    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+        commandLine "ng.cmd", "build"
+    } else {
+        commandLine "ng", "build"
+    }
+}
+
+processResources {
+    dependsOn "ngBuild"
 }

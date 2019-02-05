@@ -2,27 +2,10 @@
 
 ## Executing
 
-1. Install npm dependencies
-
-    ```
-    npm install
-    ```
-
-2. Build to generate static resources from Angular source:
-
-    ```
-    ng build
-    ```
-
-3. Build to generate Mapper implementations:
-
-    ```
-    ./gradlew build
-    ```
-
-4. Run the application:
+To start the application, run:
 
     ```
     ./gradlew bootRun
     ```
 
+Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
